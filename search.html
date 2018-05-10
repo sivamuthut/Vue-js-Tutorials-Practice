@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+  <title> Phone Book </title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<div id="display">
+  <h3>My Contacts </h3>
+  <button v-model="key" v-on:click="show_search = true , show_add = false"><b>Search</b></button>
+  <input  style="width:120px" v-if="show_search" type="text"   v-model ="search" placeholder="Search Contact">
+  <select  v-if="show_search"  v-model="by" placeholder="Search By">
+    <option selected> Name </option>
+    <option> City </option>
+    <option> Number </option>
+  </select>
+  <button v-on:click="show_search = false , show_add = true"><b>Add Contact</b></button>
+  <input v-if="show_add"  v-model="name" class="add" type="text" placeholder="Name">
+  <input v-if="show_add"  v-model="number" class="add" type="text" placeholder="Number" >
+  <input v-if="show_add" v-model= "city" class="add" type="text" placeholder="City">
+  <button type="submit" v-if ="show_add"class="add unique"   v-on:click = "contacts.push({name:name,num:number,city:city}),insert,show_search = true,show_add = false,search=''"><b>Add</b></button>
+  <hr>
+  <center>
+  <table >
+    <tr><td class="cell"><b>Name</b></td><td class="cell"><b>Contact Number</b></td><td class="cell"><b>City</b></td></tr>
+    <tr v-for=" contact in matching">
+      <td class="cell">{{ contact.name.charAt(0).toUpperCase() + contact.name.slice(1) }}</td>
+      <td class="cell">{{ contact.num  }}</td>
+      <td class="cell">{{ contact.city.charAt(0).toUpperCase() + contact.city.slice(1) }}</td>
+    </tr>
+  </table >
+  </center>
+  <hr>
+</div>
+</html>
+
+
+<script type="text/javascript">
+  var vm = new Vue({
+    el : '#display',
+    data : {
+      test: "hi", show_search: true, show_add: false, name:null ,number:null,city:null,key:'', all: true,msg:'Result',search:'',by:'',
+      result:[],
+      contacts: [
+        {name:'siva',num:'8074567890',city:'Madurai'},
+        {name:'Viki',num:'9876543210',city:'Chennai'},
+        {name:'John',num:'7964512345',city:'Kovai'},
+        {name:'Maria',num:'044-422342',city:'Trichy'}
+      ]
+    },
+
+    computed:{
+        matching : function() {
+          var that = this;
+          if (this.by === 'City') {
+            return this.contacts.filter(function (entered) {
+              return entered.city.toLowerCase().indexOf(that.search.toLowerCase()) >= 0;
+            });
+          }
+          else if(this.by === 'Number'){
+            return this.contacts.filter(function (entered) {
+            return entered.num.toLowerCase().indexOf(that.search.toLowerCase()) >= 0;
+          });
+          }
+          else
+            { return this.contacts.filter(function (entered) {
+            return entered.name.toLowerCase().indexOf(that.search.toLowerCase()) >= 0;
+               });
+
+            }
+        }
+
+
+      }
+
+
+  });
+</script>
+
+
+
+<style>
+  #display{
+    text-align:center;
+    margin-left:30%;
+    margin-right:30%;
+    box-shadow: 2px 2px 2px 2px gray;
+    padding:3%;
+    margin-top:40px;
+  }
+  .cell{
+    padding:10px;
+  }
+  button{
+    color:white;
+    background: brown;
+    border:none;
+    padding:7px;
+    margin-left:5px;
+    border-radius:5px;
+  }
+  button:hover{
+    box-shadow: 1px 1px 1px 1px black;
+  }
+  .add{
+    display:inline-block;
+  }
+  input{
+    width:70px;
+    border:1px solid lightgray;
+    padding:5px;
+    border-radius:4px;
+
+  }
+  .unique{
+    background:lightgray;
+    text-shadow: 1px 1px 1px black;
+  }
+  select{
+    padding:5px;
+    border:1px solid lightgray;
+    padding:5px;
+    border-radius:4px;
+
+  }
+</style>
