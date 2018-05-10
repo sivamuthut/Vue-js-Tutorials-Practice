@@ -1,0 +1,68 @@
+<! doctype html>
+<head>
+  <title>Arithmatic Operatoin</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<div id="calculator">
+  <h3>Binary Operation</h3>
+    <input v-model.number = "N1" type="number">
+    <select v-model="option" >
+      <option> + </option>
+      <option> - </option>
+      <option> * </option>
+      <option> / </option>
+    </select>
+    <input v-model.number = "N2" number type="munber">
+    <br>
+    <button v-on:click="find">Calculate</button>
+    <br>
+  <b>Result: <p class="result"> {{result}} </p></b>
+
+</div>
+</body>
+
+
+<script type="text/javascript">
+  var cal = new Vue({
+    el:'#calculator',
+    data:{
+
+      result:" ",
+      N1:" ",
+      N2:" "
+    },
+    methods:{
+      find  : function() {
+          if( this.option === "+"){this.result = this.N1 + this.N2;}
+          else if( this.option ==="-"){ this.result = this.N1 - this.N2;}
+          else if( this.option ==="*"){ this.result = this.N1 * this.N2;}
+          else if( this.option ==="/"){ if( this.N2 === 0){ this.result = "Infinity"} else {this.result = this.N1 / this.N2;}}
+      }
+    }
+    });
+</script>
+
+
+<style>
+  *{
+  margin:1%;
+  }
+  input{
+    width:50px;
+  }
+#calculator{
+  padding:2%;
+  box-shadow: 1px 1px 1px 1px gray;
+  width:20%;
+  text-align:center;
+}
+  .result{
+    color:green;
+    display:inline-block;
+  }
+</style>
+
+<?php
+
+?>
